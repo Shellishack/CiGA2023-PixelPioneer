@@ -60,6 +60,8 @@
     <Compile Include="Assets\Scripts\Pond.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\ElementEnum.cs" />
+    <Compile Include="Assets\Scripts\Fire.cs" />
+    <Compile Include="Assets\Scripts\Flower.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

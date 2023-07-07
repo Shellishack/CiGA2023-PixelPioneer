@@ -90,7 +90,10 @@ public class PlayerController : MonoBehaviour
         // 吸收元素
         if (Input.GetKeyDown(KeyCode.E))
         {
-            absorbedElement = interactableObject.Absorb();
+            if (interactableObject != null && absorbedElement == null)
+            {
+                absorbedElement = interactableObject.Absorb();
+            }
         }
         // 使用元素
         else if (Input.GetKeyDown(KeyCode.Q))
@@ -120,11 +123,11 @@ public class PlayerController : MonoBehaviour
             isOnGround = true;
             doubleJumpState = false;
         }
-        else if (collision.gameObject.layer == LayerMask.NameToLayer("Water"))
+        else if (collision.gameObject.layer == LayerMask.NameToLayer("Interactable"))
         {
             if (interactableObject == null)
             {
-                Debug.Log("Enter water!");
+                Debug.Log($"Enter {collision.gameObject.name}!");
                 interactableObject = collision.gameObject.GetComponent<InteractableObject>();
             }
         }
@@ -145,9 +148,9 @@ public class PlayerController : MonoBehaviour
         {
             isOnGround = false;
         }
-        else if (collision.gameObject.layer == LayerMask.NameToLayer("Water"))
+        else if (collision.gameObject.layer == LayerMask.NameToLayer("Interactable"))
         {
-            Debug.Log("Leave water!");
+            Debug.Log($"Leave {collision.gameObject.name}!");
             interactableObject = null;
         }
     }
