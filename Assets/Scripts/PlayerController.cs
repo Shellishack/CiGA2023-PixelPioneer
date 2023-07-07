@@ -12,6 +12,10 @@ public class PlayerController : MonoBehaviour
 
 	public float jumpStrength;
 
+	public bool isDoubleJump = false;
+
+	private bool doubleJumpState = false;
+
 	[Header("Íæ¼Ò×´Ì¬")]
 	public bool moveState = false;
 
@@ -63,12 +67,17 @@ public class PlayerController : MonoBehaviour
 			moveState = false;
 		}
 		//up
-		if (Input.GetKey(KeyCode.W))
+		if (Input.GetKeyDown(KeyCode.W))
 		{
-			jumpState = false;
+			Debug.Log("Jump!");
 			if (isCanjump && isOnGround)
 			{
 				jumpState = true;
+			}
+			else if (isDoubleJump && isCanjump && !isOnGround && !doubleJumpState)
+			{
+				jumpState = true;
+				doubleJumpState = true;
 			}
 		}
 	}
@@ -79,6 +88,7 @@ public class PlayerController : MonoBehaviour
 		if (jumpState)
 		{
 			rdBody.velocity = new Vector2(rdBody.velocity.x, jumpStrength * Time.fixedDeltaTime);
+			jumpState = false;
 		}
 	}
 
@@ -87,7 +97,16 @@ public class PlayerController : MonoBehaviour
 		if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
 		{
 			isOnGround = true;
-			Debug.Log("OnGround");
+			doubleJumpState = false;
+		}
+	}
+
+	private void OnTriggerStay2D(Collider2D collision)
+	{
+		if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+		{
+			isOnGround = true;
+			doubleJumpState = false;
 		}
 	}
 
@@ -96,7 +115,6 @@ public class PlayerController : MonoBehaviour
 		if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
 		{
 			isOnGround = false;
-			Debug.Log("ExitGround");
 		}
 	}
 
