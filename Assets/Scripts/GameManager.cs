@@ -7,61 +7,71 @@ using UnityEngine.Timeline;
 
 public class GameManager : MonoBehaviour
 {
-	//一些要调来调取的东西
+	//唯一实例
+	public static GameManager instance;
+
+	//一些要调来调去的东西
 	public GameObject player;
 
-	public TextMeshProUGUI selfTalk;
+	//文字显示相关
 
+	public TextMeshProUGUI selfTalk;
 	public TextMeshProUGUI normalDialogue;
 	private string currentText;
 	private int currentTextLength;
-
 	public TextMeshProUGUI sceneName;
-
 	public GUISkin testSkin;
-
 	private PlayableDirector playableDirector;
-
-	protected static GameManager _instance;
 
 	public static GameManager Instance
 	{
 		get
 		{
 			//获取单例实例时如果实例为空
-			if (_instance == null)
+			if (instance == null)
 			{
 				//首先在场景中寻找是否已有object挂载当前脚本
-				_instance = FindObjectOfType<GameManager>();
+				instance = FindObjectOfType<GameManager>();
 				//如果场景中没有挂载当前脚本那么则生成一个空的gameobject并挂载此脚本
-				if (_instance == null)
+				if (instance == null)
 				{
 					//如果创建对象，则会在创建时调用其身上脚本的Awake
 					//所以此时无需为_instance赋值，其会在Awake中赋值。
 					new GameObject("singleton of " + typeof(GameManager)).AddComponent<GameManager>();
 				}
 			}
-			return _instance;
+			return instance;
 		}
 	}
 
 	private void Awake()
 	{
-		_instance = this;
+		instance = this;
 		playableDirector = GetComponent<PlayableDirector>();
 	}
 
-	public void ShowSceneName()
+	/// <summary>
+	/// 显示场景名称调用这个
+	/// <paramref name="name"/>场景名称
+	/// </summary>
+	public void ShowSceneName(string name)
 	{
+		sceneName.text = name;
 		sceneName.gameObject.GetComponent<PlayableDirector>().Play();
 	}
 
-	public void ShowSelfTalk()
+	/// <summary>
+	/// 显示自言自语的内容调用这个
+	/// <paramref name="text"/>要显示的内容
+	/// <paramref name="existTime"/>存在的时间
+	/// </summary>
+	public void ShowSelfTalk(string text, float existTime)
 	{
+		selfTalk.text = text;
 		selfTalk.gameObject.SetActive(true);
 		selfTalk.gameObject.GetComponent<PlayableDirector>().Play();
 		StopCoroutine("AutoHideSelfTalk");
-		StartCoroutine("AutoHideSelfTalk", 3);
+		StartCoroutine("AutoHideSelfTalk", existTime);
 	}
 
 	public IEnumerator AutoHideSelfTalk(float time)
@@ -70,12 +80,17 @@ public class GameManager : MonoBehaviour
 		selfTalk.gameObject.SetActive(false);
 	}
 
-	public void ShowNormalDialogue()
+	/// <summary>
+	/// 显示对话相关内容
+	/// <paramref name="text"/>要显示的对话
+	/// <paramref name="interval"/>蹦字的时间间隔
+	/// </summary>
+	public void ShowNormalDialogue(string text, float interval)
 	{
 		normalDialogue.gameObject.SetActive(true);
-		currentText = normalDialogue.text;
+		currentText = text;
 		normalDialogue.text = "";
-		StartCoroutine("ProcessNormalDialogue", 0.1);
+		StartCoroutine("ProcessNormalDialogue", interval);
 	}
 
 	public IEnumerator ProcessNormalDialogue(float interval)
@@ -99,15 +114,15 @@ public class GameManager : MonoBehaviour
 		GUILayout.BeginHorizontal();
 		if (GUILayout.Button(new GUIContent("普通对话显示测试"), testSkin.button))
 		{
-			ShowNormalDialogue();
+			ShowNormalDialogue("这是一段打动人心的对话", 0.05f);
 		}
 		if (GUILayout.Button(new GUIContent("场景名称显示测试"), testSkin.button))
 		{
-			ShowSceneName();
+			ShowSceneName(sceneName.text);
 		}
 		if (GUILayout.Button(new GUIContent("自言自语显示测试"), testSkin.button))
 		{
-			ShowSelfTalk();
+			ShowSelfTalk("我在自言自语哦", 2);
 		}
 		GUILayout.EndHorizontal();
 	}
