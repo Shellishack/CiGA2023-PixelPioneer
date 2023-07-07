@@ -90,7 +90,7 @@ public class PlayerController : MonoBehaviour
         // 吸收元素
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (interactableObject != null && absorbedElement == null)
+            if (interactableObject != null && !absorbedElement.HasValue)
             {
                 absorbedElement = interactableObject.Absorb();
             }
@@ -98,7 +98,7 @@ public class PlayerController : MonoBehaviour
         // 使用元素
         else if (Input.GetKeyDown(KeyCode.Q))
         {
-            if (interactableObject != null && absorbedElement != null)
+            if (interactableObject != null && absorbedElement.HasValue)
             {
                 interactableObject.Assign(absorbedElement.Value);
                 absorbedElement = null;

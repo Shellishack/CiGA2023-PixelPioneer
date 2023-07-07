@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Flower : InteractableObject
+public class Cat : InteractableObject
 {
+    private bool isAlive = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,13 +22,16 @@ public class Flower : InteractableObject
     {
         Debug.Log("Absorbed floral.");
 
-        // delete this object
-        Destroy(this.gameObject);
         return ElementEnum.Floral;
     }
 
     protected override void OnAssignment(ElementEnum element)
     {
-        Debug.Log($"Flower is assigned with {element}");
+        Debug.Log($"Cat is assigned with {element}");
+    }
+
+    public void Revive()
+    {
+        this.isAlive = true;
     }
 }

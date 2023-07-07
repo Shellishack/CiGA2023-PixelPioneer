@@ -5,9 +5,9 @@ using UnityEngine;
 public abstract class InteractableObject : MonoBehaviour
 {
     // 是否已经被吸收
-    private bool IsAbsorbed = false;
+    private bool isAbsorbed = false;
     // 是否已经被赋予元素
-    private bool IsAssignedElement = false;
+    private bool isAssignedElement = false;
 
     protected abstract ElementEnum OnAbsorption();
 
@@ -15,13 +15,13 @@ public abstract class InteractableObject : MonoBehaviour
 
     public ElementEnum Absorb()
     {
-        this.IsAbsorbed = true;
+        this.isAbsorbed = true;
         return this.OnAbsorption();
     }
 
     public void Assign(ElementEnum element)
     {
-        this.IsAssignedElement = true;
+        this.isAssignedElement = true;
         this.OnAssignment(element);
     }
 }

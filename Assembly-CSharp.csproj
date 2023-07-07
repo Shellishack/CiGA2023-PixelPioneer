@@ -8,7 +8,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace></RootNamespace>
+    <RootNamespace>
+    </RootNamespace>
     <ProjectGuid>{890CB1CF-3D19-6453-A21B-2B546403491F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -61,7 +62,6 @@
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\ElementEnum.cs" />
     <Compile Include="Assets\Scripts\Fire.cs" />
-    <Compile Include="Assets\Scripts\Flower.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
