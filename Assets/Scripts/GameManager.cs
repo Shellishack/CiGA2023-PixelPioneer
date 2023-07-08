@@ -13,6 +13,22 @@ public class GameManager : MonoBehaviour
 	//一些要调来调去的东西
 	public GameObject player;
 
+	private InteractableObject iObject;
+
+	public InteractableObject currentInteractableObject
+	{
+		get { return iObject; }
+		set
+		{
+			iObject = value;
+			if (value != null && value.showDescription)
+			{
+				Debug.Log(iObject.GetType().Name + "的描述是:" + iObject.description);
+				ShowSelfTalk(iObject.description, 2);
+			}
+		}
+	}
+
 	//文字显示相关
 
 	public TextMeshProUGUI selfTalk;
@@ -22,6 +38,7 @@ public class GameManager : MonoBehaviour
 	public TextMeshProUGUI sceneName;
 	public GUISkin testSkin;
 	private PlayableDirector playableDirector;
+	private float dialogueExistTime = 0;
 
 	public static GameManager Instance
 	{
@@ -85,11 +102,13 @@ public class GameManager : MonoBehaviour
 	/// <paramref name="text"/>要显示的对话
 	/// <paramref name="interval"/>蹦字的时间间隔
 	/// </summary>
-	public void ShowNormalDialogue(string text, float interval)
+	public void ShowNormalDialogue(string text, float interval, float existTime = 1)
 	{
 		normalDialogue.gameObject.SetActive(true);
 		currentText = text;
 		normalDialogue.text = "";
+		currentTextLength = 0;
+		dialogueExistTime = existTime;
 		StartCoroutine("ProcessNormalDialogue", interval);
 	}
 
@@ -103,10 +122,21 @@ public class GameManager : MonoBehaviour
 		}
 		else
 		{
-			currentTextLength = 0;
-			yield return new WaitForSeconds(2);
-			normalDialogue.gameObject.SetActive(false);
+			yield return new WaitForSeconds(dialogueExistTime);
+			//normalDialogue.gameObject.SetActive(false);
+			StartCoroutine("ProcessDialogueDisappear", interval);
 		}
+	}
+
+	public IEnumerator ProcessDialogueDisappear(float interval)
+	{
+		normalDialogue.text = currentText.Substring(0, --currentTextLength);
+		yield return new WaitForSeconds(interval / 4);
+		if (currentTextLength != 0)
+		{
+			StartCoroutine("ProcessDialogueDisappear", interval);
+		}
+		else { normalDialogue.gameObject.SetActive(false); }
 	}
 
 	private void OnGUI()

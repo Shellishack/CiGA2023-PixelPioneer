@@ -4,33 +4,39 @@ using UnityEngine;
 
 public abstract class InteractableObject : MonoBehaviour
 {
-    // 是否已经被吸收
-    private bool isAbsorbed = false;
-    // 是否已经被赋予元素
-    private bool isAssignedElement = false;
+	// 是否已经被吸收
+	private bool isAbsorbed = false;
 
-    public bool canAbsorb = true;
-    public bool canAssign = true;
+	// 是否已经被赋予元素
+	private bool isAssignedElement = false;
 
-    public bool isHighlighted = false;
+	public bool canAbsorb = true;
+	public bool canAssign = true;
 
-    public ElementEnum? element = null;
+	public bool isHighlighted = false;
 
-    protected abstract ElementEnum OnAbsorption();
+	public ElementEnum? element = null;
 
-    protected abstract void OnAssignment(ElementEnum element);
+	//可交互物品的描述
+	public bool showDescription = true;
 
-    public ElementEnum? Absorb()
-    {
-        if (!canAbsorb) return null;
-        this.isAbsorbed = true;
-        return this.OnAbsorption();
-    }
+	public string description;
 
-    public void Assign(ElementEnum element)
-    {
-        if (!canAssign) return;
-        this.isAssignedElement = true;
-        this.OnAssignment(element);
-    }
+	protected abstract ElementEnum OnAbsorption();
+
+	protected abstract void OnAssignment(ElementEnum element);
+
+	public ElementEnum? Absorb()
+	{
+		if (!canAbsorb) return null;
+		this.isAbsorbed = true;
+		return this.OnAbsorption();
+	}
+
+	public void Assign(ElementEnum element)
+	{
+		if (!canAssign) return;
+		this.isAssignedElement = true;
+		this.OnAssignment(element);
+	}
 }

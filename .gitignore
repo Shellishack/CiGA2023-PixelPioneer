@@ -3,3 +3,6 @@ Logs/
 Temp/
 obj/
 .vs/
+Assembly-CSharp.csproj
+UserSettings/Layouts/CurrentMaximizeLayout.dwlt
+UserSettings/EditorUserSettings.asset
