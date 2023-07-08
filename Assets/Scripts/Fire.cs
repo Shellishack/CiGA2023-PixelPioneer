@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class Fire : InteractableObject
 {
+    public Fire()
+    {
+        this.element = ElementEnum.Fire;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,11 +27,16 @@ public class Fire : InteractableObject
 
         // delete this object
         Destroy(this.gameObject);
-        return ElementEnum.Fire;
+        return this.element.Value;
     }
 
     protected override void OnAssignment(ElementEnum element)
     {
         Debug.Log($"Fire is assigned with {element}");
+        if (element == ElementEnum.Water)
+        {
+            // delete this if it is assigned with water
+            Destroy(this.gameObject);
+        }
     }
 }

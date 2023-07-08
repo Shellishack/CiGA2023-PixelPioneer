@@ -90,10 +90,37 @@ public class PlayerController : MonoBehaviour
         // 吸收元素
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (interactableObject != null && !absorbedElement.HasValue)
+            if (!absorbedElement.HasValue)
             {
-                absorbedElement = interactableObject.Absorb();
+				if (interactableObject != null )
+				{
+					absorbedElement = interactableObject.Absorb();
+				}
             }
+			// Craft element if water and fire are present
+			else
+			{
+				var objElement = interactableObject.element;
+				if (objElement.HasValue && objElement.Value == ElementEnum.Water && absorbedElement.Value == ElementEnum.Fire)
+				{
+                    absorbedElement = ElementEnum.Floral;
+                    Destroy(interactableObject.gameObject);
+					interactableObject = null;
+                    Debug.Log("Crafted floral element!");
+                }
+                else if (objElement.HasValue && objElement.Value == ElementEnum.Fire && absorbedElement.Value == ElementEnum.Water)
+				{
+                    absorbedElement = ElementEnum.Floral;
+					Destroy(interactableObject.gameObject);
+                    interactableObject = null;
+                    Debug.Log("Crafted floral element!");
+                }
+                else
+				{
+                    Debug.Log("Cannot craft element");
+                }
+
+			}
         }
         // 使用元素
         else if (Input.GetKeyDown(KeyCode.Q))

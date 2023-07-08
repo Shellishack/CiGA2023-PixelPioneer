@@ -6,6 +6,11 @@ public class Cat : InteractableObject
 {
     private bool isAlive = false;
 
+    public Cat()
+    {
+        this.element = ElementEnum.Floral;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,7 +27,7 @@ public class Cat : InteractableObject
     {
         Debug.Log("Absorbed floral.");
 
-        return ElementEnum.Floral;
+        return this.element.Value;
     }
 
     protected override void OnAssignment(ElementEnum element)

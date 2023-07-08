@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class Pond : InteractableObject
 {
+    public bool isPlanted = false;
+
+    public Pond()
+    {
+        this.element = ElementEnum.Water;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,11 +29,15 @@ public class Pond : InteractableObject
         
         // delete this object
         Destroy(this.gameObject);
-        return ElementEnum.Water;
+        return this.element.Value;
     }
 
     protected override void OnAssignment(ElementEnum element)
     {
         Debug.Log($"Water is assigned with {element}");
+        if (element == ElementEnum.Floral)
+        {
+            this.isPlanted = true;
+        }
     }
 }

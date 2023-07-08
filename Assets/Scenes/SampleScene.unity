@@ -265,6 +265,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2df4caa65d2c03c41ae48b3247190eab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canAbsorb: 1
+  canAssign: 1
+  isHighlighted: 0
 --- !u!212 &138449471
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1278,6 +1281,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec6586cfb5e8e6b4a902cc92ed379fa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canAbsorb: 1
+  canAssign: 1
+  isHighlighted: 0
+  isPlanted: 0
 --- !u!61 &748446541
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1563,6 +1570,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 620e393814e422041b0f32ad53087071, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canAbsorb: 1
+  canAssign: 1
+  isHighlighted: 0
 --- !u!1 &858805718
 GameObject:
   m_ObjectHideFlags: 0
