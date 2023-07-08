@@ -20,7 +20,7 @@ public class Cat : InteractableObject
 	// Start is called before the first frame update
 	private void Start()
 	{
-	}
+    }
 
 	// Update is called once per frame
 	private void Update()
@@ -40,16 +40,34 @@ public class Cat : InteractableObject
         }
     }
 
-	protected override ElementEnum OnAbsorption()
+    public override ElementEnum? Absorb()
+    {
+        if (!canAbsorb) return null;
+        return this.OnAbsorption();
+    }
+
+    public override void Assign(ref ElementEnum? element)
+    {
+        if (!canAssign || isAssignedElement) return;
+        this.OnAssignment(ref element);
+    }
+
+
+    protected override ElementEnum OnAbsorption()
 	{
 		Debug.Log("Absorbed floral.");
 
 		return this.element.Value;
 	}
 
-	protected override void OnAssignment(ElementEnum element)
+	protected override void OnAssignment(ref ElementEnum? element)
 	{
 		Debug.Log($"Cat is assigned with {element}");
+		if (element == ElementEnum.Floral)
+		{
+			element = null;
+			this.Revive();
+		}
 	}
 
 	public void Revive()
@@ -58,7 +76,7 @@ public class Cat : InteractableObject
 	}
 
 
-    public void OnTriggerEnter2D(Collider2D collision)
+    protected override void OnTriggerEnter2D_Child(Collider2D collision)
     {
 		// If the cat is alive and collides with the player
 		var layer = LayerMask.NameToLayer("Player");

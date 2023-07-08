@@ -141,8 +141,7 @@ public class PlayerController : MonoBehaviour
 		{
 			if (interactableObject != null && absorbedElement.HasValue)
 			{
-				interactableObject.Assign(absorbedElement.Value);
-				absorbedElement = null;
+				interactableObject.Assign(ref absorbedElement);
 			}
 		}
 	}

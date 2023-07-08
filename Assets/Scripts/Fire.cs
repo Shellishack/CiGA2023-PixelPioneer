@@ -30,11 +30,13 @@ public class Fire : InteractableObject
         return this.element.Value;
     }
 
-    protected override void OnAssignment(ElementEnum element)
+    protected override void OnAssignment(ref ElementEnum? element)
     {
         Debug.Log($"Fire is assigned with {element}");
         if (element == ElementEnum.Water)
         {
+            element = null;
+
             // delete this if it is assigned with water
             Destroy(this.gameObject);
         }
