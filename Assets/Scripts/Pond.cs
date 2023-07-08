@@ -15,9 +15,10 @@ public class Pond : InteractableObject
 	{
 		Debug.Log("Absorbed water.");
 
-		// delete this object
-		Destroy(this.gameObject);
-		return this.element.Value;
+		// Change to sprite renderer color to #8E1E15
+		this.GetComponent<SpriteRenderer>().color = new Color(0.5568628f, 0.1176471f, 0.08235294f, 1f);
+
+        return this.element.Value;
 	}
 
 	protected override void OnAssignment(ElementEnum element)
