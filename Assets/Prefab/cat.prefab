@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 357559613
   m_SortingLayer: 2
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 1b59740d4bed79c46940ca162ae97a84, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -83,7 +83,7 @@ SpriteRenderer:
   m_Size: {x: 1.35, y: 1.65}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!61 &8925683967669544336
@@ -129,3 +129,8 @@ MonoBehaviour:
   isHighlighted: 0
   showDescription: 1
   descriptions: {fileID: 11400000, guid: 6f29b7f8d4ef76f43aa112a73b830719, type: 2}
+  isAlive: 0
+  isJump: 0
+  deadStateSprite: {fileID: 21300000, guid: a53f41e1ef5534f43a1448440d220606, type: 3}
+  standStateSprite: {fileID: 21300000, guid: 1b59740d4bed79c46940ca162ae97a84, type: 3}
+  jumpStateSprite: {fileID: 21300000, guid: 378fd40644d1a1f4eaa780d199a01bda, type: 3}
