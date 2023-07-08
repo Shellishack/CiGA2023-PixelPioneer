@@ -39,4 +39,9 @@ public abstract class InteractableObject : MonoBehaviour
 		this.isAssignedElement = true;
 		this.OnAssignment(element);
 	}
+
+	public void SetShowDescriptionTrue()
+	{
+		showDescription = true;
+	}
 }

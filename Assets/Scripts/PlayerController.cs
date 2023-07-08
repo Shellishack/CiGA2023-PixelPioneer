@@ -60,7 +60,7 @@ public class PlayerController : MonoBehaviour
 		ProcessInput();
 		//Vector3 canvas =
 		transform.localScale = new Vector3(faceDirction, 1);
-		transform.GetChild(0).localScale = new Vector3(faceDirction, 1);
+		//transform.GetChild(0).localScale = new Vector3(faceDirction, 1);
 	}
 
 	private void FixedUpdate()
@@ -220,6 +220,6 @@ public class PlayerController : MonoBehaviour
 
 	public void Show_SceneName()
 	{
-		GameManager.instance.ShowSceneName("-森林外-");
+		GameManager.instance.ShowSceneName("-森林内部-");
 	}
 }
