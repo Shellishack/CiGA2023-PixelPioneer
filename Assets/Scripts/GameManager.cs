@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using TMPro;
 using UnityEditor.TerrainTools;
 using UnityEngine;
@@ -14,6 +15,7 @@ public class GameManager : MonoBehaviour
 	public GameObject player;
 
 	private InteractableObject iObject;
+	//private InteractableObject autoiObject;
 
 	public InteractableObject currentInteractableObject
 	{
@@ -23,7 +25,7 @@ public class GameManager : MonoBehaviour
 			iObject = value;
 			if (value != null && value.showDescription)
 			{
-				ShowSelfTalk(iObject.descriptions.GetCurrentDescription(), 2);
+				ShowSelfTalk(iObject.descriptions.GetCurrentDescription());
 			}
 		}
 	}
@@ -31,6 +33,8 @@ public class GameManager : MonoBehaviour
 	//文字显示相关
 
 	public TextMeshProUGUI selfTalk;
+	public bool aoutSelfTalk = false;
+	public bool isSelfTalking = false;
 	public TextMeshProUGUI normalDialogue;
 	private string currentText;
 	private int currentTextLength;
@@ -76,6 +80,15 @@ public class GameManager : MonoBehaviour
 			Debug.Log("Player is dead!");
 			playerInDeadZone = false;
 		}
+		if (aoutSelfTalk && !isSelfTalking)
+		{
+			aoutSelfTalk = false;
+			ShowSelfTalk(iObject.descriptions.GetCurrentDescription());
+			if (!aoutSelfTalk)
+			{
+				GameManager.instance.player.GetComponent<PlayerController>().isAllowPlayerAction = true;
+			}
+		}
 	}
 
 	/// <summary>
@@ -93,8 +106,18 @@ public class GameManager : MonoBehaviour
 	/// <paramref name="text"/>要显示的内容
 	/// <paramref name="existTime"/>存在的时间
 	/// </summary>
-	public void ShowSelfTalk(string text, float existTime)
+	public void ShowSelfTalk(string text)
 	{
+		//自动进行下一句话 此时玩家不能操作
+		if (text.FirstOrDefault() == '*')
+		{
+			text.Remove(0, 1);
+			aoutSelfTalk = true;
+			GameManager.instance.player.GetComponent<PlayerController>().isAllowPlayerAction = false;
+			GameManager.instance.player.GetComponent<PlayerController>().moveState = false;
+			iObject.descriptions.currentIndex++;
+		}
+		isSelfTalking = true;
 		selfTalk.text = text;
 		selfTalk.gameObject.SetActive(true);
 		selfTalk.gameObject.GetComponent<PlayableDirector>().Play();
@@ -106,6 +129,7 @@ public class GameManager : MonoBehaviour
 	{
 		yield return new WaitForSeconds(time);
 		selfTalk.gameObject.SetActive(false);
+		isSelfTalking = false;
 	}
 
 	/// <summary>
@@ -163,7 +187,7 @@ public class GameManager : MonoBehaviour
 		}
 		if (GUILayout.Button(new GUIContent("自言自语显示测试"), testSkin.button))
 		{
-			ShowSelfTalk("我在自言自语哦", 2);
+			ShowSelfTalk("我在自言自语哦");
 		}
 		GUILayout.EndHorizontal();
 	}

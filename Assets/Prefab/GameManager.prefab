@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1181356642722639586}
   - component: {fileID: 1181356642722639585}
+  - component: {fileID: 1105677028}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -45,8 +46,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  currentInteractableObject: {fileID: 0}
   selfTalk: {fileID: 0}
+  aoutSelfTalk: 0
+  isSelfTalking: 0
   normalDialogue: {fileID: 0}
   sceneName: {fileID: 0}
   testSkin: {fileID: 11400000, guid: 8b388ca9352b5db4ab34dc6c90ee659d, type: 2}
+  playerInDeadZone: 0
+--- !u!320 &1105677028
+PlayableDirector:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1181356642722639584}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_PlayableAsset: {fileID: 11400000, guid: da5620c913d3fab4882da832f07985a3, type: 2}
+  m_InitialState: 1
+  m_WrapMode: 2
+  m_DirectorUpdateMode: 1
+  m_InitialTime: 0
+  m_SceneBindings:
+  - key: {fileID: 0}
+    value: {fileID: 0}
+  - key: {fileID: 6814569344172639300, guid: da5620c913d3fab4882da832f07985a3, type: 2}
+    value: {fileID: 0}
+  m_ExposedReferences:
+    m_References: []
