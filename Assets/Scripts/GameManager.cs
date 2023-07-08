@@ -23,8 +23,7 @@ public class GameManager : MonoBehaviour
 			iObject = value;
 			if (value != null && value.showDescription)
 			{
-				Debug.Log(iObject.GetType().Name + "的描述是:" + iObject.description);
-				ShowSelfTalk(iObject.description, 2);
+				ShowSelfTalk(iObject.descriptions.GetCurrentDescription(), 2);
 			}
 		}
 	}
@@ -39,6 +38,9 @@ public class GameManager : MonoBehaviour
 	public GUISkin testSkin;
 	private PlayableDirector playableDirector;
 	private float dialogueExistTime = 0;
+
+	[HideInInspector]
+	public bool playerInDeadZone;
 
 	public static GameManager Instance
 	{
@@ -67,6 +69,15 @@ public class GameManager : MonoBehaviour
 		playableDirector = GetComponent<PlayableDirector>();
 	}
 
+	private void Update()
+	{
+		if (playerInDeadZone)
+		{
+			Debug.Log("Player is dead!");
+			playerInDeadZone = false;
+		}
+	}
+
 	/// <summary>
 	/// 显示场景名称调用这个
 	/// <paramref name="name"/>场景名称
@@ -88,7 +99,7 @@ public class GameManager : MonoBehaviour
 		selfTalk.gameObject.SetActive(true);
 		selfTalk.gameObject.GetComponent<PlayableDirector>().Play();
 		StopCoroutine("AutoHideSelfTalk");
-		StartCoroutine("AutoHideSelfTalk", existTime);
+		StartCoroutine("AutoHideSelfTalk", selfTalk.gameObject.GetComponent<PlayableDirector>().playableAsset.duration);
 	}
 
 	public IEnumerator AutoHideSelfTalk(float time)

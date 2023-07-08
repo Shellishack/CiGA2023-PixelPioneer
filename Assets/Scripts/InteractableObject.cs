@@ -20,7 +20,7 @@ public abstract class InteractableObject : MonoBehaviour
 	//可交互物品的描述
 	public bool showDescription = true;
 
-	public string description;
+	public InteractionObjectDescriptionsSO descriptions;
 
 	protected abstract ElementEnum OnAbsorption();
 

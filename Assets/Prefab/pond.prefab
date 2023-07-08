@@ -101,7 +101,8 @@ MonoBehaviour:
   canAbsorb: 1
   canAssign: 1
   isHighlighted: 0
-  description: 
+  showDescription: 1
+  descriptions: {fileID: 11400000, guid: 270ebece7ae75e643961e0d185697dea, type: 2}
   isPlanted: 0
 --- !u!61 &6914555344353164387
 BoxCollider2D:
@@ -116,7 +117,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.0000008940697, y: 0.14578605}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -127,5 +128,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 1.1788305, y: 1.2915721}
   m_EdgeRadius: 0

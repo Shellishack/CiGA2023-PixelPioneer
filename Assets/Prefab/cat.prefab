@@ -151,4 +151,5 @@ MonoBehaviour:
   canAbsorb: 1
   canAssign: 1
   isHighlighted: 0
-  description: 
+  showDescription: 1
+  descriptions: {fileID: 11400000, guid: 6f29b7f8d4ef76f43aa112a73b830719, type: 2}

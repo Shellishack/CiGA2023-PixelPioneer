@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2868990781029801986}
   - component: {fileID: 468290723217309831}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: face
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 7871537712146424909}
   - component: {fileID: 7871537712146424910}
   - component: {fileID: 7871537712146424911}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: player-temp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -282,7 +282,7 @@ GameObject:
   - component: {fileID: 7871537712864065432}
   - component: {fileID: 7871537712864065433}
   - component: {fileID: 7871537712864065382}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -384,7 +384,7 @@ GameObject:
   - component: {fileID: 7871537713801862087}
   - component: {fileID: 7871537713801862137}
   - component: {fileID: 7871537713801862136}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: SelfTalk
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -449,7 +449,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 16777215
-  m_fontColor: {r: 1, g: 1, b: 1, a: 0}
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -518,7 +518,7 @@ Animator:
   m_GameObject: {fileID: 7871537713801862085}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c1192a433c20a9241a88cd5db65f8273, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
