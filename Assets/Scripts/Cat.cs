@@ -42,13 +42,16 @@ public class Cat : InteractableObject
 
     public override ElementEnum? Absorb()
     {
-        if (!canAbsorb) return null;
+        if (!canAbsorb || isAbsorbed) return null;
+        this.transform.Find("E_or_Q_hint").gameObject.SetActive(false);
+        this.transform.Find("E_hint").gameObject.SetActive(false);
+        this.transform.Find("Q_hint").gameObject.SetActive(false);
         return this.OnAbsorption();
     }
 
     public override void Assign(ref ElementEnum? element)
     {
-        if (!canAssign || isAssignedElement) return;
+        if (!canAssign || isAbsorbed || isAssignedElement) return;
         this.OnAssignment(ref element);
     }
 
@@ -56,6 +59,7 @@ public class Cat : InteractableObject
     protected override ElementEnum OnAbsorption()
 	{
 		Debug.Log("Absorbed floral.");
+		isAbsorbed = true;
 
 		return this.element.Value;
 	}

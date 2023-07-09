@@ -6,9 +6,24 @@ public class Pond : InteractableObject
 {
 	public bool isPlanted = false;
 
+
 	public Pond()
 	{
 		this.element = ElementEnum.Water;
+	}
+
+	private void Update()
+	{
+		if (isPlanted)
+		{
+            this.transform.Find("pond_pure").gameObject.SetActive(false);
+            this.transform.Find("pond_planted").gameObject.SetActive(true);
+        }
+		else
+		{
+            this.transform.Find("pond_pure").gameObject.SetActive(true);
+            this.transform.Find("pond_planted").gameObject.SetActive(false);
+        }
 	}
 
 	protected override ElementEnum OnAbsorption()
