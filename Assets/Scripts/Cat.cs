@@ -25,20 +25,20 @@ public class Cat : InteractableObject
 	// Update is called once per frame
 	private void Update()
 	{
-        // If the cat is dead, change the sprite to dead cat
-        if (!this.isAlive)
-        {
-            this.GetComponent<SpriteRenderer>().sprite = deadStateSprite;
-        }
-        else if (isJump)
-        {
-            this.GetComponent<SpriteRenderer>().sprite = jumpStateSprite;
-        }
-        else
-        {
-            this.GetComponent<SpriteRenderer>().sprite = standStateSprite;
-        }
-    }
+		// If the cat is dead, change the sprite to dead cat
+		if (!this.isAlive)
+		{
+			this.GetComponent<SpriteRenderer>().sprite = deadStateSprite;
+		}
+		else if (isJump)
+		{
+			this.GetComponent<SpriteRenderer>().sprite = jumpStateSprite;
+		}
+		else
+		{
+			this.GetComponent<SpriteRenderer>().sprite = standStateSprite;
+		}
+	}
 
 	protected override ElementEnum OnAbsorption()
 	{
@@ -57,19 +57,25 @@ public class Cat : InteractableObject
 		this.isAlive = true;
 	}
 
-
-    public void OnTriggerEnter2D(Collider2D collision)
-    {
+	public void OnTriggerEnter2D(Collider2D collision)
+	{
 		// If the cat is alive and collides with the player
 		var layer = LayerMask.NameToLayer("Player");
-        if (this.isAlive && collision.gameObject.layer == layer)
+		if (this.isAlive && collision.gameObject.layer == layer)
 		{
 			PlaySound();
 		}
-    }
-    private void PlaySound()
+	}
+
+	private void PlaySound()
 	{
 		// Play cat sound
 		this.gameObject.GetComponent<AudioSource>().Play();
+	}
+
+	public void ChangeActive()
+	{
+		this.gameObject.SetActive(false);
+		GameManager.Instance.ShowNormalDialogue("Ã¨ßäÒªÈ¥ÄÄÀï£¿", 0.05f);
 	}
 }

@@ -12,13 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b310989b92f8ad4191f7fcf6826bed5, type: 3}
   m_Name: IOD_Cat
   m_EditorClassIdentifier: 
-  currentIndex: 5
+  currentIndex: 0
   descriptions:
   - "*\u662F\u4E00\u53EA\u5C0F\u9ED1\u732B\uFF0C\u55B5\u55B5\u53EB\u7740\u975E\u5E38\u53EF\u7231"
   - "*\u4F60\u4E5F\u5728\u68EE\u6797\u91CC\u8FF7\u8DEF\u4E86\u5417\uFF1F\u8981\u4E0D\u8981\u548C\u6211\u4E00\u8D77\u627E\u8DEF\uFF1F "
   - '*a=jump_over_lake'
   - '*f=ChnageCameraConfiner'
   - "w2=\u5B83\u662F\u5728\u7ED9\u6211\u5E26\u8DEF\u5417\uFF1F"
+  - "*\u8C22\u8C22\u4F60\uFF0C\u53EF\u7231\u7684\u5C0F\u732B\u54AA~ "
+  - a=move_right
   - "\u732B\u51B2\u4F60\u53EB\u4E86\u4E24\u58F0\uFF0C\u968F\u540E\u5411\u53F3\u8D70\u53BB"
   - "\u732B\u76EF\u7740\u5927\u706B"
   - "\u732B\u770B\u770B\u4F60\u7684\u624B\uFF0C\u53C8\u770B\u770B\u704C\u6728\u4E1B"

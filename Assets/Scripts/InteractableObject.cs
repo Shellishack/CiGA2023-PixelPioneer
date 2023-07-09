@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class InteractableObject : MonoBehaviour
 {
 	// 是否已经被吸收
-	private bool isAbsorbed = false;
+	protected bool isAbsorbed = false;
 
 	// 是否已经被赋予元素
 	private bool isAssignedElement = false;

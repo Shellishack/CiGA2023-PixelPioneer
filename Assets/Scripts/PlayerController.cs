@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
 	private Rigidbody2D rdBody;
+	private Animator animator;
 
 	[Header("玩家属性")]
 	public bool isAllowPlayerAction;//是否允许玩家操作
@@ -32,6 +33,10 @@ public class PlayerController : MonoBehaviour
 	//是否在地面
 	public bool isOnGround = true;
 
+	public bool begingInteraction;
+
+	public bool finishInteraction;
+
 	// 周围可互动物体
 	private InteractableObject iObject;
 
@@ -52,12 +57,14 @@ public class PlayerController : MonoBehaviour
 	private void Start()
 	{
 		rdBody = GetComponent<Rigidbody2D>();
+		animator = GetComponent<Animator>();
 	}
 
 	// Update is called once per frame
 	private void Update()
 	{
 		ProcessInput();
+		ProcessAniamtion();
 		//Vector3 canvas =
 		transform.localScale = new Vector3(faceDirction, 1);
 		//transform.GetChild(0).localScale = new Vector3(faceDirction, 1);
@@ -105,6 +112,7 @@ public class PlayerController : MonoBehaviour
 		// 吸收元素
 		if (Input.GetKeyDown(KeyCode.E))
 		{
+			begingInteraction = true;
 			if (!absorbedElement.HasValue)
 			{
 				if (interactableObject != null)
@@ -132,6 +140,7 @@ public class PlayerController : MonoBehaviour
 				}
 				else
 				{
+					begingInteraction = false;
 					Debug.Log("Cannot craft element");
 				}
 			}
@@ -141,9 +150,14 @@ public class PlayerController : MonoBehaviour
 		{
 			if (interactableObject != null && absorbedElement.HasValue)
 			{
+				begingInteraction = true;
 				interactableObject.Assign(absorbedElement.Value);
 				absorbedElement = null;
 			}
+		}
+		else
+		{
+			begingInteraction = false;
 		}
 	}
 
@@ -155,6 +169,13 @@ public class PlayerController : MonoBehaviour
 			rdBody.velocity = new Vector2(rdBody.velocity.x, jumpStrength * Time.fixedDeltaTime);
 			jumpState = false;
 		}
+	}
+
+	private void ProcessAniamtion()
+	{
+		animator.SetBool("MoveState", moveState);
+		animator.SetBool("BeginInteraction", begingInteraction);
+		animator.SetBool("FinishInteraction", finishInteraction);
 	}
 
 	private void OnTriggerEnter2D(Collider2D collision)

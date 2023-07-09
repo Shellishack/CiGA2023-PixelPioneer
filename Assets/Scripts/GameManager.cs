@@ -251,4 +251,9 @@ public class GameManager : MonoBehaviour
 		if (text != "") ShowNormalDialogue(text, 0.05f);
 		isSelfTalking = false;
 	}
+
+	public void NextScene()
+	{
+		Debug.Log("NextScene");
+	}
 }
