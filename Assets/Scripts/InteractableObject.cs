@@ -95,4 +95,9 @@ public abstract class InteractableObject : MonoBehaviour
 
         OnTriggerExit2D_Child(collision);
     }
+
+    public void SetShowDescriptionTrue()
+    {
+        showDescription = true;
+    }
 }

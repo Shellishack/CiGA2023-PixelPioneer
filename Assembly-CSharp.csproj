@@ -65,6 +65,8 @@
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\DeadZone.cs" />
     <Compile Include="Assets\Scripts\InteractionObjectDescriptionsSO.cs" />
+    <Compile Include="Assets\Scripts\ActionArea.cs" />
+    <Compile Include="Assets\SmokeMove.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />

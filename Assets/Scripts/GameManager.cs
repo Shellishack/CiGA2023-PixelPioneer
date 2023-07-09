@@ -1,6 +1,9 @@
+using Cinemachine;
+using System;
 using System.Collections;
 using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEditor.TerrainTools;
 using UnityEngine;
 using UnityEngine.Playables;
@@ -22,7 +25,7 @@ public class GameManager : MonoBehaviour
 		get { return iObject; }
 		set
 		{
-			iObject = value;
+			iObject = value == null ? iObject : value;
 			if (value != null && value.showDescription)
 			{
 				ShowSelfTalk(iObject.descriptions.GetCurrentDescription());
@@ -45,6 +48,11 @@ public class GameManager : MonoBehaviour
 
 	[HideInInspector]
 	public bool playerInDeadZone;
+
+	public GameObject CameraConfiners;
+	public int confinerIndex = 0;
+	public GameObject activeConfiner;
+	public GameObject targetConfiner;
 
 	public static GameManager Instance
 	{
@@ -71,6 +79,8 @@ public class GameManager : MonoBehaviour
 	{
 		instance = this;
 		playableDirector = GetComponent<PlayableDirector>();
+		activeConfiner = CameraConfiners.transform.GetChild(0).gameObject;
+		Debug.Log(activeConfiner.name);
 	}
 
 	private void Update()
@@ -111,11 +121,40 @@ public class GameManager : MonoBehaviour
 		//自动进行下一句话 此时玩家不能操作
 		if (text.FirstOrDefault() == '*')
 		{
-			text.Remove(0, 1);
+			text = text.Remove(0, 1);
 			aoutSelfTalk = true;
 			GameManager.instance.player.GetComponent<PlayerController>().isAllowPlayerAction = false;
 			GameManager.instance.player.GetComponent<PlayerController>().moveState = false;
 			iObject.descriptions.currentIndex++;
+		}
+		//依靠一些指令来推进流程 a播放动画
+		if (text.FirstOrDefault() == 'a')
+		{
+			text = text.Remove(0, 2);
+			iObject.GetComponent<Animator>().SetTrigger(text);
+			if (!aoutSelfTalk) iObject.descriptions.currentIndex++;
+			iObject.showDescription = false;//播放动画的时候是不允许交互的
+			return;
+		}
+		//通过C#的反射机制调用方法
+		else if (text.FirstOrDefault() == 'f')
+		{
+			string funName = text.Remove(0, 2);
+			this.GetType().GetMethod(funName)?.Invoke(this, null);
+			if (!aoutSelfTalk) iObject.descriptions.currentIndex++;
+			return;
+		}
+		//等待几秒再做...
+		else if (text.FirstOrDefault() == 'w')
+		{
+			text = text.Remove(0, 1);
+			isSelfTalking = true;
+			//dialogue的时候是允许玩家移动的
+			//GameManager.instance.player.GetComponent<PlayerController>().isAllowPlayerAction = true;
+			//GameManager.instance.player.GetComponent<PlayerController>().moveState = false;
+			StartCoroutine("WaitTimeThenDoSomething", text);
+			if (!aoutSelfTalk) iObject.descriptions.currentIndex++;
+			return;
 		}
 		isSelfTalking = true;
 		selfTalk.text = text;
@@ -128,8 +167,8 @@ public class GameManager : MonoBehaviour
 	public IEnumerator AutoHideSelfTalk(float time)
 	{
 		yield return new WaitForSeconds(time);
-		selfTalk.gameObject.SetActive(false);
 		isSelfTalking = false;
+		selfTalk.gameObject.SetActive(false);
 	}
 
 	/// <summary>
@@ -190,5 +229,31 @@ public class GameManager : MonoBehaviour
 			ShowSelfTalk("我在自言自语哦");
 		}
 		GUILayout.EndHorizontal();
+	}
+
+	public void ChnageCameraConfiner()
+	{
+		++confinerIndex;
+		//Debug.Log("ChnageCameraConfiner");
+		targetConfiner = CameraConfiners.transform.GetChild(confinerIndex).gameObject;
+		activeConfiner.gameObject.transform.position = targetConfiner.gameObject.transform.position;
+		//Debug.Log(targetConfiner.name);
+		//StartCoroutine("MoveToNextPoint");
+	}
+
+	public IEnumerator WaitTimeThenDoSomething(string text)
+	{
+		//Debug.Log(text.FirstOrDefault());
+		float waitTime = Convert.ToSingle(text.FirstOrDefault().ToString());
+		text = text.Remove(0, 2);
+		yield return new WaitForSeconds(waitTime);
+		//iObject =
+		if (text != "") ShowNormalDialogue(text, 0.05f);
+		isSelfTalking = false;
+	}
+
+	public void NextScene()
+	{
+		Debug.Log("NextScene");
 	}
 }
