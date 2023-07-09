@@ -24,10 +24,7 @@ public class Pond : InteractableObject
             this.transform.Find("pond_pure").gameObject.SetActive(true);
             this.transform.Find("pond_planted").gameObject.SetActive(false);
         }
-	}
 
-	private void Update()
-	{
 		if (isAbsorbed)
 		{
 			var c = this.GetComponent<SpriteRenderer>().color;
@@ -48,10 +45,6 @@ public class Pond : InteractableObject
 		// Change to sprite renderer color to #8E1E15
 		//this.GetComponent<SpriteRenderer>().color = new Color(0.5568628f, 0.1176471f, 0.08235294f, 1f);
 		return this.element.Value;
-		this.GetComponent<SpriteRenderer>().color = new Color(0.5568628f, 0.1176471f, 0.08235294f, 1f);
-		this.isAbsorbed = true;
-
-        return this.element.Value;
 	}
 
 	protected override void OnAssignment(ref ElementEnum? element)

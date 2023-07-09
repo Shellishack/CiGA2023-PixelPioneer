@@ -9,7 +9,7 @@ public class ActionArea : InteractableObject
 		return ElementEnum.Fire;
 	}
 
-	protected override void OnAssignment(ElementEnum element)
+	protected override void OnAssignment(ref ElementEnum? element)
 	{
 	}
 
