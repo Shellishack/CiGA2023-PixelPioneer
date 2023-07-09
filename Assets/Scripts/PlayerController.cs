@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -37,6 +38,8 @@ public class PlayerController : MonoBehaviour
 
 	public bool finishInteraction;
 
+	public SpriteRenderer currentElementImage;
+
 	// 周围可互动物体
 	private InteractableObject iObject;
 
@@ -51,7 +54,7 @@ public class PlayerController : MonoBehaviour
 	}
 
 	// 玩家拥有的元素
-	private ElementEnum? absorbedElement = null;
+	public ElementEnum? absorbedElement = null;
 
 	// Start is called before the first frame update
 	private void Start()
@@ -73,6 +76,7 @@ public class PlayerController : MonoBehaviour
 	private void FixedUpdate()
 	{
 		ProcessMovement();
+		Debug.Log("拥有的元素:" + absorbedElement.ToString());
 	}
 
 	//处理玩家输入
@@ -110,7 +114,7 @@ public class PlayerController : MonoBehaviour
 		}
 
 		// 吸收元素
-		if (Input.GetKeyDown(KeyCode.E))
+		if (Input.GetKeyDown(KeyCode.E) && interactableObject != null)
 		{
 			begingInteraction = true;
 			if (!absorbedElement.HasValue)
@@ -150,7 +154,7 @@ public class PlayerController : MonoBehaviour
 		{
 			if (interactableObject != null && absorbedElement.HasValue)
 			{
-				begingInteraction = true;
+				//begingInteraction = true;
 				interactableObject.Assign(absorbedElement.Value);
 				absorbedElement = null;
 			}
@@ -166,6 +170,7 @@ public class PlayerController : MonoBehaviour
 		rdBody.velocity = new Vector2(moveSpeed * faceDirction * Time.fixedDeltaTime * (moveState ? 1 : 0), rdBody.velocity.y);
 		if (jumpState)
 		{
+			PlayJump();
 			rdBody.velocity = new Vector2(rdBody.velocity.x, jumpStrength * Time.fixedDeltaTime);
 			jumpState = false;
 		}
@@ -221,6 +226,17 @@ public class PlayerController : MonoBehaviour
 	{
 		Gizmos.color = Color.yellow;
 		//Gizmos.DrawWireSphere(transform.position - new Vector3(0f, 0.45f, 0f), 0.4f);
+	}
+
+	public void PlayJB()
+	{
+		if (!isOnGround) return;
+		transform.GetComponents<AudioSource>()[Random.Range(0, 1)].Play();
+	}
+
+	public void PlayJump()
+	{
+		transform.GetComponents<AudioSource>()[2].Play();
 	}
 
 	//-----------------控制开场动画相关---------------------

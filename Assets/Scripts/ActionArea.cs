@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class ActionArea : InteractableObject
 {
+	public bool touchDead = false;
+
 	protected override ElementEnum OnAbsorption()
 	{
 		return ElementEnum.Fire;
@@ -11,6 +13,7 @@ public class ActionArea : InteractableObject
 
 	protected override void OnAssignment(ElementEnum element)
 	{
+		Debug.Log("asdasd");
 	}
 
 	// Start is called before the first frame update

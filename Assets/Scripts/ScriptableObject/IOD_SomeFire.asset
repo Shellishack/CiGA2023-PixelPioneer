@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b310989b92f8ad4191f7fcf6826bed5, type: 3}
+  m_Name: IOD_SomeFire
+  m_EditorClassIdentifier: 
+  currentIndex: 0
+  descriptions:
+  - "*\u5C0F\u704C\u6728\u6B63\u5728\u7740\u706B\uFF0C\u53EF\u662F\u5468\u56F4\u597D\u50CF\u6CA1\u6709\u6C34\uFF1F"
+  - "*\u89E6\u53CA......\u4E5F\u8BB8\u6211\u80FD\u8BD5\u8BD5\u770B"
+  - "[\u6309\u4E0BE]"

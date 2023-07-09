@@ -1,13 +1,11 @@
-using Cinemachine;
 using System;
 using System.Collections;
 using System.Linq;
 using TMPro;
-using Unity.VisualScripting;
-using UnityEditor.TerrainTools;
 using UnityEngine;
 using UnityEngine.Playables;
-using UnityEngine.Timeline;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -46,6 +44,9 @@ public class GameManager : MonoBehaviour
 	private PlayableDirector playableDirector;
 	private float dialogueExistTime = 0;
 
+	public AudioSource selfTalkAudio;
+	public AudioSource dialogueAudio;
+
 	[HideInInspector]
 	public bool playerInDeadZone;
 
@@ -53,6 +54,22 @@ public class GameManager : MonoBehaviour
 	public int confinerIndex = 0;
 	public GameObject activeConfiner;
 	public GameObject targetConfiner;
+
+	public Image transition;
+	public bool nextSceneState = false;
+
+	public bool isSecondLevel = false;
+
+	public Canvas Canvas;
+
+	public SpriteRenderer element;
+
+	public AudioSource fireBg;
+	public AudioSource fireExit;
+
+	public Sprite fireElement;
+
+	public GameObject CG;
 
 	public static GameManager Instance
 	{
@@ -77,6 +94,7 @@ public class GameManager : MonoBehaviour
 
 	private void Awake()
 	{
+		//DontDestroyOnLoad(Canvas.gameObject);
 		instance = this;
 		playableDirector = GetComponent<PlayableDirector>();
 		activeConfiner = CameraConfiners.transform.GetChild(0).gameObject;
@@ -96,8 +114,67 @@ public class GameManager : MonoBehaviour
 			ShowSelfTalk(iObject.descriptions.GetCurrentDescription());
 			if (!aoutSelfTalk)
 			{
-				GameManager.instance.player.GetComponent<PlayerController>().isAllowPlayerAction = true;
+				player.GetComponent<PlayerController>().isAllowPlayerAction = true;
 			}
+		}
+		if (nextSceneState)
+		{
+			transition.color = new Color(transition.color.r, transition.color.g, transition.color.b, transition.color.a + Time.deltaTime / 2);
+			//fsbg.volume -= 0.008f;
+			if (SceneManager.GetActiveScene().name == "第三关")
+			{
+				GameManager.instance.GetComponents<AudioSource>()[1].volume -= Time.deltaTime / 4;
+			}
+			if (transition.color.a >= 1)
+			{
+				if (SceneManager.GetActiveScene().name == "第一关") SceneManager.LoadScene("第二关");
+				if (SceneManager.GetActiveScene().name == "第二关") SceneManager.LoadScene("第三关");
+				if (SceneManager.GetActiveScene().name == "第三关") SceneManager.LoadScene("END");
+			}
+		}
+		if (SceneManager.GetActiveScene().name == "第二关" && !isSecondLevel)
+		{
+			//ssbg.volume += 0.008f;
+			player.GetComponent<PlayerController>().absorbedElement = ElementEnum.Water;
+			transition.color = new Color(transition.color.r, transition.color.g, transition.color.b, transition.color.a - Time.deltaTime / 2);
+			if (transition.color.a <= 0)
+			{
+				isSecondLevel = true;
+				GameManager.instance.ShowSceneName("-森林中部-");
+				GameManager.instance.ShowSelfTalk("w3=怎么会起这么大的火!");
+			}
+		}
+		if (SceneManager.GetActiveScene().name == "第三关" && !isSecondLevel)
+		{
+			player.GetComponent<PlayerController>().isAllowPlayerAction = false;
+			player.GetComponent<PlayerController>().faceDirction = 1;
+			player.GetComponent<PlayerController>().moveSpeed = 100f;
+			fireBg.Pause();
+			//ssbg.volume += 0.008f;
+			//player.GetComponent<PlayerController>().absorbedElement = ElementEnum.Water;
+			transition.color = new Color(transition.color.r, transition.color.g, transition.color.b, transition.color.a - Time.deltaTime / 2);
+			if (transition.color.a <= 0)
+			{
+				isSecondLevel = true;
+				player.GetComponent<PlayerController>().moveState = true;
+				GameManager.instance.ShowSceneName("-森林深处-");
+				GameManager.instance.ShowSelfTalk("w3=猫咪!......猫咪！");
+				GameManager.instance.ShowSelfTalk("w6=猫咪!......猫咪！");
+				GameManager.instance.ShowSelfTalk("w9=猫咪!......猫咪！");
+			}
+		}
+		if (SceneManager.GetActiveScene().name == "END" && !isSecondLevel)
+		{
+			transition.color = new Color(transition.color.r, transition.color.g, transition.color.b, transition.color.a - Time.deltaTime / 2);
+			if (transition.color.a <= 0)
+			{
+				isSecondLevel = true;
+				CG.gameObject.SetActive(true);
+			}
+		}
+		if (Input.GetKeyDown(KeyCode.Escape))
+		{
+			Application.Quit();
 		}
 	}
 
@@ -130,8 +207,17 @@ public class GameManager : MonoBehaviour
 		//依靠一些指令来推进流程 a播放动画
 		if (text.FirstOrDefault() == 'a')
 		{
-			text = text.Remove(0, 2);
-			iObject.GetComponent<Animator>().SetTrigger(text);
+			text = text.Remove(0, 1);
+			if (text.FirstOrDefault() == 'p')
+			{
+				text = text.Remove(0, 2);
+				player.GetComponent<Animator>().SetTrigger(text);
+			}
+			else
+			{
+				text = text.Remove(0, 1);
+				iObject.GetComponent<Animator>().SetTrigger(text);
+			}
 			if (!aoutSelfTalk) iObject.descriptions.currentIndex++;
 			iObject.showDescription = false;//播放动画的时候是不允许交互的
 			return;
@@ -153,9 +239,10 @@ public class GameManager : MonoBehaviour
 			//GameManager.instance.player.GetComponent<PlayerController>().isAllowPlayerAction = true;
 			//GameManager.instance.player.GetComponent<PlayerController>().moveState = false;
 			StartCoroutine("WaitTimeThenDoSomething", text);
-			if (!aoutSelfTalk) iObject.descriptions.currentIndex++;
+			if (!aoutSelfTalk && iObject != null) iObject.descriptions.currentIndex++;
 			return;
 		}
+		selfTalkAudio.Play();
 		isSelfTalking = true;
 		selfTalk.text = text;
 		selfTalk.gameObject.SetActive(true);
@@ -192,6 +279,7 @@ public class GameManager : MonoBehaviour
 		yield return new WaitForSeconds(interval);
 		if (currentTextLength != currentText.Length)
 		{
+			dialogueAudio.Play();
 			StartCoroutine("ProcessNormalDialogue", interval);
 		}
 		else
@@ -215,20 +303,20 @@ public class GameManager : MonoBehaviour
 
 	private void OnGUI()
 	{
-		GUILayout.BeginHorizontal();
-		if (GUILayout.Button(new GUIContent("普通对话显示测试"), testSkin.button))
-		{
-			ShowNormalDialogue("这是一段打动人心的对话", 0.05f);
-		}
-		if (GUILayout.Button(new GUIContent("场景名称显示测试"), testSkin.button))
-		{
-			ShowSceneName(sceneName.text);
-		}
-		if (GUILayout.Button(new GUIContent("自言自语显示测试"), testSkin.button))
-		{
-			ShowSelfTalk("我在自言自语哦");
-		}
-		GUILayout.EndHorizontal();
+		//GUILayout.BeginHorizontal();
+		//if (GUILayout.Button(new GUIContent("普通对话显示测试"), testSkin.button))
+		//{
+		//	ShowNormalDialogue("这是一段打动人心的对话", 0.05f);
+		//}
+		//if (GUILayout.Button(new GUIContent("场景名称显示测试"), testSkin.button))
+		//{
+		//	ShowSceneName(sceneName.text);
+		//}
+		//if (GUILayout.Button(new GUIContent("自言自语显示测试"), testSkin.button))
+		//{
+		//	ShowSelfTalk("我在自言自语哦");
+		//}
+		//GUILayout.EndHorizontal();
 	}
 
 	public void ChnageCameraConfiner()
@@ -254,6 +342,17 @@ public class GameManager : MonoBehaviour
 
 	public void NextScene()
 	{
-		Debug.Log("NextScene");
+		nextSceneState = true;
+	}
+
+	public void NextScene3()
+	{
+		nextSceneState = true;
+	}
+
+	public void PlayCG()
+	{
+		nextSceneState = true;
+		Debug.Log("asdasd");
 	}
 }

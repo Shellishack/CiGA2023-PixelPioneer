@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b310989b92f8ad4191f7fcf6826bed5, type: 3}
+  m_Name: IOD_FindCat
+  m_EditorClassIdentifier: 
+  currentIndex: 0
+  descriptions:
+  - "*\u732B\u54AA\uFF1F"
+  - "*\u4F60\u600E\u4E48\u8EBA\u5728\u8FD9\u91CC\uFF1F"
+  - "w2=\u55B5......"

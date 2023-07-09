@@ -16,7 +16,9 @@ public class Pond : InteractableObject
 		if (isAbsorbed)
 		{
 			var c = this.GetComponent<SpriteRenderer>().color;
-			this.GetComponent<SpriteRenderer>().color = new Color(c.r, c.g, c.b, c.a - 0.001f);
+			var cc = GameManager.instance.element.color;
+			this.GetComponent<SpriteRenderer>().color = new Color(c.r, c.g, c.b, c.a - Time.deltaTime / 2);
+			GameManager.instance.element.color = new Color(cc.r, cc.g, cc.b, cc.a + Time.deltaTime / 2);
 			if (c.a <= 0)
 			{
 				GameManager.instance.player.GetComponent<PlayerController>().finishInteraction = true;
