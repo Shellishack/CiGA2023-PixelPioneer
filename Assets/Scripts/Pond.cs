@@ -20,7 +20,7 @@ public class Pond : InteractableObject
 			if (c.a <= 0)
 			{
 				GameManager.instance.player.GetComponent<PlayerController>().finishInteraction = true;
-				GameManager.instance.ShowNormalDialogue("ÕâÊÇ¡­¡­ÎÒµÄÁ¦Á¿£¿", 0.05f);
+				GameManager.instance.ShowNormalDialogue("ï¿½ï¿½ï¿½Ç¡ï¿½ï¿½ï¿½ï¿½Òµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", 0.05f);
 				Destroy(this.gameObject);
 			}
 		}
@@ -35,12 +35,14 @@ public class Pond : InteractableObject
 		return this.element.Value;
 	}
 
-	protected override void OnAssignment(ElementEnum element)
+	protected override void OnAssignment(ref ElementEnum? element)
 	{
 		Debug.Log($"Water is assigned with {element}");
 		if (element == ElementEnum.Floral)
 		{
 			this.isPlanted = true;
+			this.isAssignedElement = true;
+			element = null;
 		}
 	}
 }
